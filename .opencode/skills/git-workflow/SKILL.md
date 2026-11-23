@@ -16,6 +16,21 @@ description: Safe Git workflow for agentic development — protect the working t
 - 優先遵循 Repository 已存在的規範、團隊協議及使用者明確指示。
 - 不確定變更來源、分支所有權或操作影響時，採取保守策略；不要自行推定授權。
 
+## 分支模型
+
+本專案採用 **Git Flow 風格** 的雙主軸模型：
+
+- **`main`**：保存正式發布歷史。只接受 `release/*` 與 `hotfix/*` 合併；每個 commit 對應一個可發布版本，並打上版本 tag。
+- **`develop`**：整合開發主線。所有功能在此匯集、驗證；是 feature 分支的合併目標與 release 的來源。
+- **`feat/<module>-<brief>`**：功能開發分支，**從 `develop` 分出**，完成後合併回 `develop`（優先 Squash Merge）。
+- **`release/<version>`**：發布準備分支，**從 `develop` 分出**。凍結新功能、只修 bug；完成後合併回 `main`（打 tag）與 `develop`。
+- **`hotfix/<issue>`**：緊急修正分支，**從 `main` 分出**。修正後合併回 `main`（打 tag）與 `develop`。
+
+規則：
+- 不得從 `main` 直接開 feature 分支；功能一律從 `develop` 起。
+- `main` 與 `develop` 皆為共享分支，未經明確授權不得改寫其歷史。
+- 合併前確認目標分支正確（feature → develop、release/hotfix → main + develop）。
+
 ## 必要約束
 
 ### 1. 保護工作目錄
